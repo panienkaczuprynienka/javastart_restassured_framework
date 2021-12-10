@@ -1,4 +1,4 @@
-package pl.javastart.restassured.main.pojo;
+package pl.javastart.restassured.main.pojo.pet;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
