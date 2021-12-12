@@ -30,7 +30,7 @@ public class CreatePetTests extends SuiteTestBase {
 
 
   @AfterTest
-  public void cleanUpAfterTest(){
+  public void cleanUpAfterTest() {
     ApiResponse petDeleted = given()
             .contentType(ContentType.JSON)
             .pathParam("petId", pet.getId())
@@ -40,8 +40,16 @@ public class CreatePetTests extends SuiteTestBase {
             .statusCode(200)
             .extract().as(ApiResponse.class);
 
-    Assertions.assertThat(petDeleted.getMessage().contains(String.valueOf(pet.getId())));
+    ApiResponse expectedApiResponse = ApiResponse.builder()
+            .code(200)
+            .type("unknown")
+            .message(pet.getId().toString())
+            .build();
 
+    Assertions.assertThat(petDeleted.getMessage().contains(String.valueOf(pet.getId())));
+    Assertions.assertThat(petDeleted)
+            .describedAs("API Response from system was not as expected")
+            .usingRecursiveComparison().isEqualTo(expectedApiResponse);
   }
 
 }

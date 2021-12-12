@@ -26,9 +26,17 @@ public class CreateUserTests extends SuiteTestBase {
             .then().statusCode(200)
             .extract().as(ApiResponse.class);
 
-    Assertions.assertThat(userCreatedRespone.getCode()).isEqualTo(200);
-    Assertions.assertThat(userCreatedRespone.getType()).isEqualTo("unknown");
-    Assertions.assertThat(userCreatedRespone.getMessage()).isEqualTo(String.valueOf(user.getId()));
+    ApiResponse expectedApiResponse = ApiResponse.builder()
+            .code(200)
+            .type("unknown")
+            .message(String.valueOf(user.getId()))
+            .build();
+
+
+    Assertions.assertThat(userCreatedRespone)
+            .describedAs("API Response from system was not as expected")
+            .usingRecursiveComparison().isEqualTo(expectedApiResponse);
+
   }
 
   @AfterTest
@@ -44,5 +52,15 @@ public class CreateUserTests extends SuiteTestBase {
 
     Assertions.assertThat(apiResponse.getMessage().contains(user.getUsername()));
 
+    ApiResponse expectedApiResponse = ApiResponse.builder()
+            .code(200)
+            .type("unknown")
+            .message(user.getUsername())
+            .build();
+
+
+    Assertions.assertThat(apiResponse)
+            .describedAs("API Response from system was not as expected")
+            .usingRecursiveComparison().isEqualTo(expectedApiResponse);
   }
 }
