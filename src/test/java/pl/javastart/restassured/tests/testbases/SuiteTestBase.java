@@ -6,6 +6,7 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 import org.aeonbits.owner.ConfigFactory;
 import org.testng.annotations.BeforeSuite;
 import pl.javastart.restassured.main.properties.EnvironmentConfig;
+import org.assertj.core.api.Assertions;
 
 public class SuiteTestBase {
 

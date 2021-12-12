@@ -1,4 +1,4 @@
-package pl.javastart.restassured.main.pojo.user;
+package pl.javastart.restassured.main.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Builder
 @Jacksonized
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserCreatedResponse {
+public class ApiResponse {
   private Integer code;
   private String type;
   private String message;
