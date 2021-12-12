@@ -6,6 +6,7 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 import pl.javastart.restassured.main.pojo.ApiResponse;
 import pl.javastart.restassured.main.pojo.pet.Pet;
+import pl.javastart.restassured.main.request.configuration.RequestConfigurationBuilder;
 import pl.javastart.restassured.main.test.data.PetTestDataGenerator;
 import pl.javastart.restassured.tests.testbases.SuiteTestBase;
 
@@ -20,7 +21,9 @@ public class CreatePetTests extends SuiteTestBase {
   public void givenPetWhenPostPetThenPetIsCreatedTest() {
     pet = new PetTestDataGenerator().generatePet();
 
-    Pet actualPet = given().body(pet).contentType("application/json")
+    Pet actualPet = given()
+            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
+            .body(pet)
             .when().post("pet")
             .then().statusCode(200).extract().as(Pet.class);
 
@@ -32,7 +35,7 @@ public class CreatePetTests extends SuiteTestBase {
   @AfterTest
   public void cleanUpAfterTest() {
     ApiResponse petDeleted = given()
-            .contentType(ContentType.JSON)
+             .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
             .pathParam("petId", pet.getId())
             .when()
             .delete("/pet/{petId}")
