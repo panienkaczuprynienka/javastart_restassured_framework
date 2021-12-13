@@ -46,7 +46,6 @@
             <artifactId>assertj-core</artifactId>
             <!-- use 2.9.1 for Java 7 projects -->
             <version>3.16.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.aeonbits.owner</groupId>
