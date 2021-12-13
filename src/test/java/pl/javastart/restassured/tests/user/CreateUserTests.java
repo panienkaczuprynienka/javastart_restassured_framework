@@ -1,17 +1,14 @@
 package pl.javastart.restassured.tests.user;
 
-import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.Test;
 import pl.javastart.restassured.main.pojo.ApiResponse;
 import pl.javastart.restassured.main.pojo.user.User;
-import pl.javastart.restassured.main.request.configuration.RequestConfigurationBuilder;
 import pl.javastart.restassured.main.rop.CreateUserEndpoint;
+import pl.javastart.restassured.main.rop.DeleteUserEndpoint;
 import pl.javastart.restassured.main.test.data.UserTestDataGenerator;
 import pl.javastart.restassured.tests.testbases.SuiteTestBase;
-
-import static io.restassured.RestAssured.given;
 
 public class CreateUserTests extends SuiteTestBase {
 
@@ -38,15 +35,8 @@ public class CreateUserTests extends SuiteTestBase {
   }
 
   @AfterTest
-  public void cleanUpAfterTest(){
-    ApiResponse apiResponse = given()
-            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .pathParam("username", user.getUsername())
-            .when()
-            .delete("/user/{username}")
-            .then()
-            .statusCode(HttpStatus.SC_OK)
-            .extract().as(ApiResponse.class);
+  public void cleanUpAfterTest() {
+    ApiResponse apiResponse = new DeleteUserEndpoint().setUsername(user.getUsername()).sendRequest().assertRequestSuccess().getResponseModel();
 
     Assertions.assertThat(apiResponse.getMessage().contains(user.getUsername()));
 
@@ -55,7 +45,6 @@ public class CreateUserTests extends SuiteTestBase {
             .type("unknown")
             .message(user.getUsername())
             .build();
-
 
     Assertions.assertThat(apiResponse)
             .describedAs("API Response from system was not as expected")
