@@ -8,6 +8,7 @@ import pl.javastart.restassured.main.pojo.ApiResponse;
 import pl.javastart.restassured.main.pojo.pet.Pet;
 import pl.javastart.restassured.main.request.configuration.RequestConfigurationBuilder;
 import pl.javastart.restassured.main.rop.CreatePetEndpoint;
+import pl.javastart.restassured.main.rop.DeletePetEndpoint;
 import pl.javastart.restassured.main.test.data.PetTestDataGenerator;
 import pl.javastart.restassured.tests.testbases.SuiteTestBase;
 
@@ -24,7 +25,7 @@ public class CreatePetTests extends SuiteTestBase {
   public void givenPetWhenPostPetThenPetIsCreatedTest() {
     pet = new PetTestDataGenerator().generatePet();
 
-     actualPet = new CreatePetEndpoint().setPet(pet).sendRequest().assertRequestSuccess().getResponseModel();
+    actualPet = new CreatePetEndpoint().setPet(pet).sendRequest().assertRequestSuccess().getResponseModel();
 
     assertEquals(actualPet.getId(), pet.getId(), "Pet id");
     assertEquals(actualPet.getName(), pet.getName(), "Pet name");
@@ -33,14 +34,7 @@ public class CreatePetTests extends SuiteTestBase {
 
   @AfterTest
   public void cleanUpAfterTest() {
-    ApiResponse petDeleted = given()
-             .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-            .pathParam("petId", pet.getId())
-            .when()
-            .delete("/pet/{petId}")
-            .then()
-            .statusCode(200)
-            .extract().as(ApiResponse.class);
+    ApiResponse petDeleted = new DeletePetEndpoint().setPetId(pet.getId()).sendRequest().assertRequestSuccess().getResponseModel();
 
     ApiResponse expectedApiResponse = ApiResponse.builder()
             .code(200)

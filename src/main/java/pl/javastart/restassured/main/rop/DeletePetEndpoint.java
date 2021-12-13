@@ -28,7 +28,7 @@ public class DeletePetEndpoint extends BaseEndpoint<DeletePetEndpoint, ApiRespon
 
   @Override
   protected int getSuccessStatusCode() {
-    return HttpStatus.SC_NOT_FOUND;
+    return HttpStatus.SC_OK;
   }
 
   @Override
