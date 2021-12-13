@@ -33,7 +33,7 @@ public abstract class BaseEndpoint<E, M> {
     return assertStatusCode(getSuccessStatusCode());
   }
 
-  // Metoda do weryfikacji koduy statusowego - dowolnego innego. Zwraca parametr (E), czyli klasę endpointu
+  // Metoda do weryfikacji kodu statusowego - dowolnego innego. Zwraca parametr (E), czyli klasę endpointu
   public E assertStatusCode(int statusCode) {
     assertThat(response.getStatusCode()).as("Status code").isEqualTo(statusCode);
     return (E) this;

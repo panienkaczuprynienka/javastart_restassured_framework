@@ -22,13 +22,6 @@ public class CreateUserTests extends SuiteTestBase {
     UserTestDataGenerator userTestDataGenerator = new UserTestDataGenerator(); // Tworzymy generator
     user = userTestDataGenerator.generateUser();
 
-//    ApiResponse userCreatedRespone = given()
-//            .spec(RequestConfigurationBuilder.getDefaultRequestSpecification())
-//            .body(user)
-//            .when().post("user")
-//            .then().statusCode(HttpStatus.SC_OK)
-//            .extract().as(ApiResponse.class);
-
     ApiResponse userCreatedRespone = new CreateUserEndpoint().setUser(user).sendRequest().assertRequestSuccess().getResponseModel();
 
     ApiResponse expectedApiResponse = ApiResponse.builder()
